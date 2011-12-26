@@ -7,6 +7,23 @@ require 'crack'
 module Karotz
   class Client
 
+    def initialize(interactive_id)
+      @interactive_id = interactive_id
+    end
+
+    def method_missing(meth, *args, &blk)
+      if self.class.respond_to? meth
+        args.unshift @interactive_id
+        self.class.send meth, *args, &blk
+      else
+        super
+      end
+    end
+
+    def respond_to?(meth)
+      self.class.respond_to?(meth) || super
+    end
+
     API = "http://api.karotz.com/api/karotz/"
     DIGEST  = OpenSSL::Digest::Digest.new('sha1')
 
@@ -45,9 +62,9 @@ module Karotz
       request :interactivemode, interactive_id, params
     end
 
-    def self.do
+    def self.session
       interactive_id = start
-      yield(self)
+      yield(new(interactive_id))
     ensure
       stop(interactive_id)
     end

@@ -1,0 +1,52 @@
+---
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :get
+    uri: http://api.karotz.com:80/api/karotz/start?apikey=7afdd4b7-3bc8-4469-bda2-1d8bc1e218a0&installid=68e0a42b-aca3-49aa-9dc2-85a8f141e8c5&once=45144111633037&signature=mYHKgqfC0X8t2mdHOudC9gO0hIU=&timestamp=1324932376
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '388'
+      connection:
+      - keep-alive
+    body: <VoosMsg><id>35387ec7-8d4d-4f3e-80fe-21de698ed2dc</id><recipient>2addc8ff97e59fe4616021094db393d5</recipient><interactiveMode><action>START</action><interactiveId>0854e9e3-699f-4fa0-8c12-dee177dd50f7</interactiveId><configId>941894ed-d048-42f6-ab68-fbe95abaa157</configId><access>ears</access><access>led</access><access>multimedia</access><access>tts</access></interactiveMode></VoosMsg>
+    http_version: '1.1'
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :get
+    uri: http://api.karotz.com:80/api/karotz/ears?interactiveid=0854e9e3-699f-4fa0-8c12-dee177dd50f7&reset=true
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '255'
+      connection:
+      - keep-alive
+    body: <VoosMsg><id>f9e9fbf4-55d5-424f-8a3b-4f11e5657bc3</id><correlationId>df6ab8da-b497-472c-b3b6-9a88a7351e1f</correlationId><interactiveId>0854e9e3-699f-4fa0-8c12-dee177dd50f7</interactiveId><callback></callback><response><code>OK</code></response></VoosMsg>
+    http_version: '1.1'
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :get
+    uri: http://api.karotz.com:80/api/karotz/interactivemode?action=stop&interactiveid=0854e9e3-699f-4fa0-8c12-dee177dd50f7
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '255'
+      connection:
+      - keep-alive
+    body: <VoosMsg><id>9f54ba1c-f294-495f-aa17-de8d0eb9f919</id><correlationId>25a4a976-5578-4141-9f51-46acab6663ae</correlationId><interactiveId>0854e9e3-699f-4fa0-8c12-dee177dd50f7</interactiveId><callback></callback><response><code>OK</code></response></VoosMsg>
+    http_version: '1.1'

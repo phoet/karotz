@@ -89,6 +89,12 @@ module Karotz
         interactive_id.should_not be_empty
         Client.stop(interactive_id)
       end
+
+      it "should do something in a block", :vcr => true do
+        Client.session do |karotz|
+          karotz.ears
+        end
+      end
     end
 
   end
