@@ -1,4 +1,4 @@
-require 'uri'
+require 'cgi'
 require 'base64'
 require 'httpi'
 require 'httpclient'
@@ -10,18 +10,8 @@ module Karotz
     API = "http://api.karotz.com/api/karotz/"
     DIGEST  = OpenSSL::Digest::Digest.new('sha1')
 
-    def self.start_url(installid, apikey, secret, once=(rand(9999999) + 1000000), timestamp=Time.now.to_i)
-      params = {
-        'installid' => installid,
-        'apikey' => apikey,
-        'once' => once.to_s,
-        'timestamp' => timestamp.to_s,
-      }
-      query = create_query(params)
-      hmac = OpenSSL::HMAC.digest(DIGEST, secret, query)
-      signed = Base64.encode64(hmac).strip
-      "#{API}start?#{query}&signature=#{URI.encode(signed)}"
-    end
+    #==========EARS=================
+
 
     def self.ears(interactive_id, params={:reset => true})
       request :ears, interactive_id, params
@@ -43,8 +33,39 @@ module Karotz
 
     #============LIFE_CYCLE=========
 
-    def self.interactivemode(interactive_id, params={:action => :stop})
+    def self.start
+      url = start_url(Configuration.install_id, Configuration.api_key, Configuration.secret)
+      response = HTTPI.get(url)
+      answer = Crack::XML.parse(response.body)
+      raise "could not retrieve interactive_id" if answer["VoosMsg"].nil? || answer["VoosMsg"]["interactiveMode"].nil? || answer["VoosMsg"]["interactiveMode"]["interactiveId"].nil?
+      answer["VoosMsg"]["interactiveMode"]["interactiveId"]
+    end
+
+    def self.stop(interactive_id, params={:action => :stop})
       request :interactivemode, interactive_id, params
+    end
+
+    def self.do
+      interactive_id = start
+      yield(self)
+    ensure
+      stop(interactive_id)
+    end
+
+    #===========HELPERS================
+
+    def self.start_url(install_id, api_key, secret, once=rand(99999999999999), timestamp=Time.now.to_i)
+      params = {
+        'installid'   => install_id,
+        'apikey'      => api_key,
+        'once'        => once,
+        'timestamp'   => timestamp,
+      }
+      query   = create_query(params)
+      hmac    = OpenSSL::HMAC.digest(DIGEST, secret, query)
+      encoded = Base64.encode64(hmac).chomp
+      signed  = CGI.escape(encoded)
+      "#{API}start?#{query}&signature=#{signed}"
     end
 
     private()
@@ -59,8 +80,20 @@ module Karotz
     end
 
     def self.create_query(params)
-      params.map { |key, value| "#{key}=#{URI.encode(value.to_s)}" }.sort.join('&')
+      params.map { |key, value| "#{key}=#{CGI.escape(value.to_s)}" }.sort.join('&')
     end
 
   end
+end
+
+if __FILE__ == $PROGRAM_NAME
+  require File.dirname(__FILE__) + "/configuration"
+  Karotz::Configuration.configure do |config|
+    config.install_id = ENV['KAROTZ_INSTALL_ID']
+    config.api_key    = ENV['KAROTZ_API_KEY']
+    config.secret     = ENV['KAROTZ_SECRET']
+  end
+
+  interactive_id = Karotz::Client.start
+  Karotz::Client.stop(interactive_id)
 end

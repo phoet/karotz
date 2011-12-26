@@ -1,0 +1,35 @@
+---
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :get
+    uri: http://api.karotz.com:80/api/karotz/start?apikey=7afdd4b7-3bc8-4469-bda2-1d8bc1e218a0&installid=68e0a42b-aca3-49aa-9dc2-85a8f141e8c5&once=968427128138&signature=JoB4OPxlO68gimsw/P4Flrx9eDQ=&timestamp=1324909989
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '388'
+      connection:
+      - keep-alive
+    body: <VoosMsg><id>620cdae1-0cfc-49ea-aae3-c516c0c434e5</id><recipient>2addc8ff97e59fe4616021094db393d5</recipient><interactiveMode><action>START</action><interactiveId>cfe16aac-425c-4efb-a1a1-caa857ff4a9e</interactiveId><configId>941894ed-d048-42f6-ab68-fbe95abaa157</configId><access>ears</access><access>led</access><access>multimedia</access><access>tts</access></interactiveMode></VoosMsg>
+    http_version: '1.1'
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :get
+    uri: http://api.karotz.com:80/api/karotz/interactivemode?action=stop&interactiveid=cfe16aac-425c-4efb-a1a1-caa857ff4a9e
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '255'
+      connection:
+      - keep-alive
+    body: <VoosMsg><id>5d8e274c-d8de-4f37-9d1c-95f37ea1c7b9</id><correlationId>b612e547-a09c-4001-965e-fe5d12e8cb86</correlationId><interactiveId>cfe16aac-425c-4efb-a1a1-caa857ff4a9e</interactiveId><callback></callback><response><code>OK</code></response></VoosMsg>
+    http_version: '1.1'

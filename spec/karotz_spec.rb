@@ -25,7 +25,7 @@ module Karotz
   describe Client do
     it "should create a signed url" do
       args = ['INSTALL_ID', 'API_KEY', 'SECRET', '7112317', '1324833464']
-      url  = "http://api.karotz.com/api/karotz/start?apikey=API_KEY&installid=INSTALL_ID&once=7112317&timestamp=1324833464&signature=Vb+yZK3eNlXGh+9DfnwIqQ+ZIAE="
+      url  = "http://api.karotz.com/api/karotz/start?apikey=API_KEY&installid=INSTALL_ID&once=7112317&timestamp=1324833464&signature=Vb%2ByZK3eNlXGh%2B9DfnwIqQ%2BZIAE%3D"
       Client.start_url(*args).should eql(url)
     end
 
@@ -75,9 +75,19 @@ module Karotz
       end
     end
 
-    context "interactivemode" do
-      it "should stop the mode", :vcr => true do
-        Client.interactivemode(@interactive_id)
+    context "lifecycle" do
+      before(:each) do
+        Configuration.configure do |config|
+          config.install_id = ENV['KAROTZ_INSTALL_ID']
+          config.api_key    = ENV['KAROTZ_API_KEY']
+          config.secret     = ENV['KAROTZ_SECRET']
+        end
+      end
+
+      it "should start and stop the interactiveMode", :vcr => true do
+        interactive_id = Client.start
+        interactive_id.should_not be_empty
+        Client.stop(interactive_id)
       end
     end
 

@@ -27,9 +27,7 @@ RSpec.configure do |config|
     @install_id = ENV['KAROTZ_INSTALL_ID']
     @api_key = ENV['KAROTZ_API_KEY']
     @secret = ENV['KAROTZ_SECRET']
-    # currently retrieved via
-    # http://www.karotz.com/authentication/run/karotz/API_KEY
-    # cause login-process does throws 502 BAD_GATEWAY
+    # retrieved via http://www.karotz.com/authentication/run/karotz/API_KEY
     @interactive_id = "117c09d2-02b9-4b38-b64b-9b821ac7c91c"
 
     Karotz::Configuration.reset
