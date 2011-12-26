@@ -27,79 +27,94 @@ module Karotz
     API = "http://api.karotz.com/api/karotz/"
     DIGEST  = OpenSSL::Digest::Digest.new('sha1')
 
-    #==========EARS=================
+    class << self
 
+      #==========EARS=================
 
-    def self.ears(interactive_id, params={:reset => true})
-      request :ears, interactive_id, params
+      def ears(interactive_id, params={:reset => true})
+        request :ears, interactive_id, params
+      end
+
+      #============LED================
+
+      def led(interactive_id, params={:action => :pulse, :color => Color::BLUE, :period => 3000, :pulse => 500})
+        request :led, interactive_id, params
+      end
+
+      def fade(interactive_id, params={:color => Color::BLUE, :period => 3000})
+        request :led, interactive_id, {:action => :fade}.merge(params)
+      end
+
+      def light(interactive_id, params={:color => Color::BLUE})
+        request :led, interactive_id, {:action => :light}.merge(params)
+      end
+
+      #============TTS================
+
+      def tts(interactive_id, params={:action => :speak, :text => "test", :lang => Language::ENGLISH})
+        request :tts, interactive_id, params
+      end
+      alias :speak :tts
+
+      #============MULTIMEDIA=========
+
+      def multimedia(interactive_id, params={:action => :play, :url => "http://www.jimwalls.net/mp3/ATeam.mp3"})
+        request :multimedia, interactive_id, params
+      end
+      alias :play :multimedia
+
+      #============LIFE_CYCLE=========
+
+      def start
+        url = start_url(Configuration.install_id, Configuration.api_key, Configuration.secret)
+        response = HTTPI.get(url)
+        answer = Crack::XML.parse(response.body)
+        raise "could not retrieve interactive_id" if answer["VoosMsg"].nil? || answer["VoosMsg"]["interactiveMode"].nil? || answer["VoosMsg"]["interactiveMode"]["interactiveId"].nil?
+        answer["VoosMsg"]["interactiveMode"]["interactiveId"]
+      end
+
+      def stop(interactive_id, params={:action => :stop})
+        request :interactivemode, interactive_id, params
+      end
+
+      def session
+        interactive_id = start
+        yield(new(interactive_id))
+      ensure
+        stop(interactive_id)
+      end
+
+      #===========HELPERS================
+
+      def start_url(install_id, api_key, secret, once=rand(99999999999999), timestamp=Time.now.to_i)
+        params = {
+          'installid'   => install_id,
+          'apikey'      => api_key,
+          'once'        => once,
+          'timestamp'   => timestamp,
+        }
+        query   = create_query(params)
+        hmac    = OpenSSL::HMAC.digest(DIGEST, secret, query)
+        encoded = Base64.encode64(hmac).chomp
+        signed  = CGI.escape(encoded)
+        "#{API}start?#{query}&signature=#{signed}"
+      end
+
+      private()
+
+      def request(endpoint, interactive_id, params={})
+        raise "interactive_id is needed!" unless interactive_id
+        raise "endpoint is needed!" unless endpoint
+        url = "#{API}#{endpoint}?#{create_query({ :interactiveid => interactive_id }.merge(params))}"
+        response = HTTPI.get(url)
+        answer = Crack::XML.parse(response.body)
+        raise "bad response from server" unless answer["VoosMsg"]["response"]["code"] == "OK"
+      end
+
+      def create_query(params)
+        params.map { |key, value| "#{key}=#{CGI.escape(value.to_s)}" }.sort.join('&')
+      end
     end
-
-    #============LED================
-
-    def self.led(interactive_id, params={:action => :pulse, :color => Color::BLUE, :period => 3000, :pulse => 500})
-      request :led, interactive_id, params
-    end
-
-    def self.fade(interactive_id, params={:color => Color::BLUE, :period => 3000})
-      request :led, interactive_id, {:action => :fade}.merge(params)
-    end
-
-    def self.light(interactive_id, params={:color => Color::BLUE})
-      request :led, interactive_id, {:action => :light}.merge(params)
-    end
-
-    #============LIFE_CYCLE=========
-
-    def self.start
-      url = start_url(Configuration.install_id, Configuration.api_key, Configuration.secret)
-      response = HTTPI.get(url)
-      answer = Crack::XML.parse(response.body)
-      raise "could not retrieve interactive_id" if answer["VoosMsg"].nil? || answer["VoosMsg"]["interactiveMode"].nil? || answer["VoosMsg"]["interactiveMode"]["interactiveId"].nil?
-      answer["VoosMsg"]["interactiveMode"]["interactiveId"]
-    end
-
-    def self.stop(interactive_id, params={:action => :stop})
-      request :interactivemode, interactive_id, params
-    end
-
-    def self.session
-      interactive_id = start
-      yield(new(interactive_id))
-    ensure
-      stop(interactive_id)
-    end
-
-    #===========HELPERS================
-
-    def self.start_url(install_id, api_key, secret, once=rand(99999999999999), timestamp=Time.now.to_i)
-      params = {
-        'installid'   => install_id,
-        'apikey'      => api_key,
-        'once'        => once,
-        'timestamp'   => timestamp,
-      }
-      query   = create_query(params)
-      hmac    = OpenSSL::HMAC.digest(DIGEST, secret, query)
-      encoded = Base64.encode64(hmac).chomp
-      signed  = CGI.escape(encoded)
-      "#{API}start?#{query}&signature=#{signed}"
-    end
-
-    private()
-
-    def self.request(endpoint, interactive_id, params={})
-      raise "interactive_id is needed!" unless interactive_id
-      raise "endpoint is needed!" unless endpoint
-      url = "#{API}#{endpoint}?#{create_query({ :interactiveid => interactive_id }.merge(params))}"
-      response = HTTPI.get(url)
-      answer = Crack::XML.parse(response.body)
-      raise "bad response from server" unless answer["VoosMsg"]["response"]["code"] == "OK"
-    end
-
-    def self.create_query(params)
-      params.map { |key, value| "#{key}=#{CGI.escape(value.to_s)}" }.sort.join('&')
-    end
-
   end
 end
 

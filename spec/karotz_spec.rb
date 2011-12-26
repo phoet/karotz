@@ -75,6 +75,18 @@ module Karotz
       end
     end
 
+    context "text to speach (tts)" do
+      it "should say something", :vcr => true do
+        Client.tts(@interactive_id)
+      end
+    end
+
+    context "multimedia" do
+      it "should play mp3", :vcr => true do
+        Client.play(@interactive_id)
+      end
+    end
+
     context "lifecycle" do
       before(:each) do
         Configuration.configure do |config|

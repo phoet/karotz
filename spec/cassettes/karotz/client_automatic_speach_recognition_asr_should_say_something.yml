@@ -1,0 +1,19 @@
+---
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :get
+    uri: http://api.karotz.com:80/api/karotz/asr?grammar=test&interactiveid=209301e8-05a6-47b4-b257-600eb62f7d25&lang=de
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '215'
+      connection:
+      - keep-alive
+    body: ! '<VoosMsg><id>ce674a52-dc8d-4034-a1fe-a5549278af22</id><correlationId>865dfff6-f4e1-45b9-b088-2ac75a407efc</correlationId><response><code>ERROR</code><description>Access
+      denied: asr</description></response></VoosMsg>'
+    http_version: '1.1'

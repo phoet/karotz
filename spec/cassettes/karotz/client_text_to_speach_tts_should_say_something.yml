@@ -1,0 +1,18 @@
+---
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :get
+    uri: http://api.karotz.com:80/api/karotz/tts?action=speak&interactiveid=209301e8-05a6-47b4-b257-600eb62f7d25&lang=EN&text=test
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '255'
+      connection:
+      - keep-alive
+    body: <VoosMsg><id>5eb5ad44-f0d6-43cb-82f5-abd987b42c8f</id><correlationId>c4731e65-0710-4475-9a8d-f555ffc4c188</correlationId><interactiveId>209301e8-05a6-47b4-b257-600eb62f7d25</interactiveId><callback></callback><response><code>OK</code></response></VoosMsg>
+    http_version: '1.1'
