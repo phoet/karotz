@@ -24,7 +24,9 @@ module Karotz
 
   describe Client do
     it "should create a signed url" do
-      Client.start_url(@install_id, @api_key, @secret, '7112317', '1324833464').should eql('http://api.karotz.com/api/karotz/start?apikey=7afdd4b7-3bc8-4469-bda2-1d8bc1e218a0&installid=1a9bf66d-6a47-4f6e-a260-d42fd70a5583&once=7112317&timestamp=1324833464&signature=hhE0T+UwSTD1aCfaE6MJXshYDHs=')
+      args = ['INSTALL_ID', 'API_KEY', 'SECRET', '7112317', '1324833464']
+      url  = "http://api.karotz.com/api/karotz/start?apikey=API_KEY&installid=INSTALL_ID&once=7112317&timestamp=1324833464&signature=Vb+yZK3eNlXGh+9DfnwIqQ+ZIAE="
+      Client.start_url(*args).should eql(url)
     end
 
     context "ears" do
