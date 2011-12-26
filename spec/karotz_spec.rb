@@ -65,6 +65,14 @@ module Karotz
       it "should pulse", :vcr => true do
         Client.led(@interactive_id)
       end
+
+      it "should fade", :vcr => true do
+        Client.fade(@interactive_id)
+      end
+
+      it "should light", :vcr => true do
+        Client.light(@interactive_id)
+      end
     end
 
     context "interactivemode" do
