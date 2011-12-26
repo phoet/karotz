@@ -27,4 +27,6 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency "httpclient"
   s.add_runtime_dependency "httpi"
   s.add_runtime_dependency "crack"
+
+  s.add_runtime_dependency('jruby-openssl') if RUBY_PLATFORM == 'java'
 end

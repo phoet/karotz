@@ -14,3 +14,6 @@ Supported methods:
 * ears
 * led
 
+== Todos
+
+* add color mixing method for RGB usage

@@ -29,15 +29,15 @@ module Karotz
 
     #============LED================
 
-    def self.led(interactive_id, params={:action => :pulse, :color => "00FF00", :period => 3000, :pulse => 500})
+    def self.led(interactive_id, params={:action => :pulse, :color => Color::BLUE, :period => 3000, :pulse => 500})
       request :led, interactive_id, params
     end
 
-    def self.fade(interactive_id, params={:color => '77FF44', :period => 3000})
+    def self.fade(interactive_id, params={:color => Color::BLUE, :period => 3000})
       request :led, interactive_id, {:action => :fade}.merge(params)
     end
 
-    def self.light(interactive_id, params={:color => '77FF44'})
+    def self.light(interactive_id, params={:color => Color::BLUE})
       request :led, interactive_id, {:action => :light}.merge(params)
     end
 
