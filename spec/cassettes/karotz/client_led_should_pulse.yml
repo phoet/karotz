@@ -1,0 +1,18 @@
+---
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :get
+    uri: http://api.karotz.com:80/api/karotz/led?action=pulse&color=00FF00&interactiveid=25e76d1a-d60b-47c2-8832-95628f46ae1e&period=3000&pulse=500
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '255'
+      connection:
+      - keep-alive
+    body: <VoosMsg><id>56e477b2-fc36-4210-a618-e4e3e21e78db</id><correlationId>f8315c4f-4943-4775-9af9-f2b123a5e858</correlationId><interactiveId>25e76d1a-d60b-47c2-8832-95628f46ae1e</interactiveId><callback></callback><response><code>OK</code></response></VoosMsg>
+    http_version: '1.1'
