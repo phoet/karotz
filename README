@@ -1,3 +1,16 @@
-this will be a wrapper for the karotz rest-api.
+== Info
 
-early development, expect more comming this week!
+Status: http://stillmaintained.com/phoet/karotz.png
+Build: http://travis-ci.org/phoet/karotz.png
+
+This gem is still in early development.
+
+== Docs
+
+Right now, please have a look at the specs for usage examples.
+
+Supported methods:
+
+* ears
+* led
+
