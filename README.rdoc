@@ -2,6 +2,7 @@
 
 Status: http://stillmaintained.com/phoet/karotz.png
 Build: http://travis-ci.org/phoet/karotz.png
+Dependencies: http://gemnasium.com/phoet/karotz.png
 
 This gem is still in early development.
 
@@ -17,6 +18,17 @@ Supported methods:
 Have a look at the whole api: http://dev.karotz.com/api
 
 Read the HOW-TO: http://www.dzone.com/links/karotz_ruby_love.html
+
+== Installation
+
+  gem install karotz
+
+via Bundler:
+
+  # Gemfile
+  gem "karotz"
+  
+  bundle install
 
 == Examples
 

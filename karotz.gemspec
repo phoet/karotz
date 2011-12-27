@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors     = ["Peter Schröder"]
   s.email       = ["phoetmail@googlemail.com"]
   s.homepage    = "http://github.com/phoet/karotz"
-  s.description = s.summary     = %q{ruby bindings for karotz rest api}
+  s.description = s.summary = %q{ruby bindings for karotz rest api}
 
   s.rubyforge_project = "karotz"
 
@@ -24,9 +24,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency "webmock"
   s.add_development_dependency "vcr"
 
-  s.add_runtime_dependency "httpclient"
-  s.add_runtime_dependency "httpi"
-  s.add_runtime_dependency "crack"
+  s.add_runtime_dependency "httpclient",  "~> 2.2"
+  s.add_runtime_dependency "httpi",       "~> 0.9"
+  s.add_runtime_dependency "crack",       "~> 0.3"
 
   s.add_runtime_dependency('jruby-openssl') if RUBY_PLATFORM == 'java'
 end
