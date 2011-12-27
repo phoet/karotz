@@ -30,7 +30,6 @@ module Karotz
     end
 
     context "ears" do
-
       it "should wiggle the ears", :vcr => true do
         Client.ears(@interactive_id)
       end
@@ -63,7 +62,7 @@ module Karotz
 
     context "led" do
       it "should pulse", :vcr => true do
-        Client.led(@interactive_id)
+        Client.pulse(@interactive_id)
       end
 
       it "should fade", :vcr => true do
@@ -96,6 +95,12 @@ module Karotz
         end
       end
 
+      it "should create a client with a interactive_id", :vcr => true do
+        Client.create.tap do |it|
+          it.interactive_id.should_not be_nil
+        end
+      end
+
       it "should start and stop the interactiveMode", :vcr => true do
         interactive_id = Client.start
         interactive_id.should_not be_empty
@@ -108,6 +113,5 @@ module Karotz
         end
       end
     end
-
   end
 end

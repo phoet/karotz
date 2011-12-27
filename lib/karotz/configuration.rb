@@ -1,3 +1,5 @@
+require 'logger'
+
 module Karotz
   class Configuration
     class << self
@@ -26,7 +28,7 @@ module Karotz
       end
 
       def blank?(key)
-        val = self.send :key
+        val = self.send key
         val.nil? || val.empty?
       end
 

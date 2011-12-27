@@ -7,13 +7,38 @@ This gem is still in early development.
 
 == Docs
 
-Right now, please have a look at the specs for usage examples.
-
 Supported methods:
 
 * ears
 * led
+* tts (text to speach)
+* multimedia
 
-== Todos
+Have a look at the whole api: http://dev.karotz.com/api/
 
-* add color mixing method for RGB usage
+== Examples
+
+  require 'karotz'
+  Karotz::Configuration.configure do |config|
+    config.install_id = ENV['KAROTZ_INSTALL_ID']
+    config.api_key    = ENV['KAROTZ_API_KEY']
+    config.secret     = ENV['KAROTZ_SECRET']
+  end
+  
+  # bare
+  interactive_id = Karotz::Client.start
+  Karotz::Client.ears interactive_id
+  [...]
+  Karotz::Client.stop(interactive_id)
+  
+  # using a session
+  Karotz::Client.session do |karotz|
+    karotz.ears
+    [...]
+  end
+  
+  # using a client
+  karotz = Karotz::Client.create
+  karotz.ears
+  [...]
+  karotz.stop

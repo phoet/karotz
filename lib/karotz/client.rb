@@ -6,6 +6,7 @@ require 'crack'
 
 module Karotz
   class Client
+    attr_accessor :interactive_id
 
     def initialize(interactive_id)
       @interactive_id = interactive_id
@@ -27,7 +28,7 @@ module Karotz
     API = "http://api.karotz.com/api/karotz/"
     DIGEST  = OpenSSL::Digest::Digest.new('sha1')
 
-    class << self
+    class << self # TODO add the rest of the API calls
 
       #==========EARS=================
 
@@ -37,54 +38,63 @@ module Karotz
 
       #============LED================
 
-      def led(interactive_id, params={:action => :pulse, :color => Color::BLUE, :period => 3000, :pulse => 500})
-        request :led, interactive_id, params
+      def led(interactive_id, params={})
+        request :led, interactive_id, {:action => :pulse, :color => Color::BLUE, :period => 3000, :pulse => 500}.merge(params)
+      end
+      alias :pulse :led
+
+      def fade(interactive_id, params={})
+        request :led, interactive_id, {:action => :fade, :color => Color::BLUE, :period => 3000}.merge(params)
       end
 
-      def fade(interactive_id, params={:color => Color::BLUE, :period => 3000})
-        request :led, interactive_id, {:action => :fade}.merge(params)
-      end
-
-      def light(interactive_id, params={:color => Color::BLUE})
-        request :led, interactive_id, {:action => :light}.merge(params)
+      def light(interactive_id, params={})
+        request :led, interactive_id, {:action => :light, :color => Color::BLUE}.merge(params)
       end
 
       #============TTS================
 
-      def tts(interactive_id, params={:action => :speak, :text => "test", :lang => Language::ENGLISH})
-        request :tts, interactive_id, params
+      def tts(interactive_id, params={})
+        request :tts, interactive_id, {:action => :speak, :text => "test", :lang => Language::ENGLISH}.merge(params)
       end
       alias :speak :tts
 
       #============MULTIMEDIA=========
 
-      def multimedia(interactive_id, params={:action => :play, :url => "http://www.jimwalls.net/mp3/ATeam.mp3"})
-        request :multimedia, interactive_id, params
+      def multimedia(interactive_id, params={})
+        request :multimedia, interactive_id, {:action => :play, :url => "http://www.jimwalls.net/mp3/ATeam.mp3"}.merge(params)
       end
       alias :play :multimedia
 
       #============LIFE_CYCLE=========
 
       def start
+        Configuration.validate_credentials!
         url = start_url(Configuration.install_id, Configuration.api_key, Configuration.secret)
+        Configuration.logger.debug "calling karotz api with url '#{url}'"
         response = HTTPI.get(url)
         answer = Crack::XML.parse(response.body)
+        Configuration.logger.debug "answer was '#{answer}'"
         raise "could not retrieve interactive_id" if answer["VoosMsg"].nil? || answer["VoosMsg"]["interactiveMode"].nil? || answer["VoosMsg"]["interactiveMode"]["interactiveId"].nil?
         answer["VoosMsg"]["interactiveMode"]["interactiveId"]
       end
 
-      def stop(interactive_id, params={:action => :stop})
-        request :interactivemode, interactive_id, params
+      def stop(interactive_id, params={})
+        request :interactivemode, interactive_id, {:action => :stop}.merge(params)
       end
 
-      def session
-        interactive_id = start
-        yield(new(interactive_id))
+      def session # TODO multimedia-api is not blocking, so we need some whay to find out when we can kill the session properly
+        client = create
+        yield(client)
       ensure
-        stop(interactive_id)
+        stop(client.interactive_id) if client
       end
 
       #===========HELPERS================
+
+      def create
+        interactive_id = start
+        new(interactive_id)
+      end
 
       def start_url(install_id, api_key, secret, once=rand(99999999999999), timestamp=Time.now.to_i)
         params = {
@@ -106,9 +116,11 @@ module Karotz
         raise "interactive_id is needed!" unless interactive_id
         raise "endpoint is needed!" unless endpoint
         url = "#{API}#{endpoint}?#{create_query({ :interactiveid => interactive_id }.merge(params))}"
+        Configuration.logger.debug "calling karotz api with url '#{url}'"
         response = HTTPI.get(url)
         answer = Crack::XML.parse(response.body)
-        raise "bad response from server" unless answer["VoosMsg"]["response"]["code"] == "OK"
+        Configuration.logger.debug "answer was '#{answer}'"
+        raise "bad response from server" if answer["VoosMsg"].nil? || answer["VoosMsg"]["response"].nil? || answer["VoosMsg"]["response"]["code"] != "OK"
       end
 
       def create_query(params)
