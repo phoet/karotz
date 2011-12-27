@@ -3,5 +3,6 @@ module Karotz
     ENGLISH = :EN
     GERMAN  = :DE
     FRENCH  = :FR
+    SPANISH = :ES
   end
 end
