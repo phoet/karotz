@@ -14,7 +14,9 @@ Supported methods:
 * tts (text to speach)
 * multimedia
 
-Have a look at the whole api: http://dev.karotz.com/api/
+Have a look at the whole api: http://dev.karotz.com/api
+
+Read the HOW-TO: http://www.dzone.com/links/karotz_ruby_love.html
 
 == Examples
 
