@@ -76,7 +76,13 @@ module Karotz
 
     context "text to speach (tts)" do
       it "should say something", :vcr => true do
-        Client.tts(@interactive_id)
+        Client.speak(@interactive_id)
+      end
+    end
+
+    context "automatic speach recognition (asr)" do
+      it "should listen to voice", :vcr => true do
+        Client.listen(@interactive_id)
       end
     end
 

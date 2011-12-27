@@ -58,6 +58,13 @@ module Karotz
       end
       alias :speak :tts
 
+      #============ASR================
+
+      def asr(interactive_id, params={})
+        request :asr, interactive_id, {:grammar => 'ruby', :lang => Language::ENGLISH}.merge(params)
+      end
+      alias :listen :asr
+
       #============MULTIMEDIA=========
 
       def multimedia(interactive_id, params={})

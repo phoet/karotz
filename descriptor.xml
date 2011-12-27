@@ -1,0 +1,21 @@
+<descriptor>
+  <version>0.0.3</version>
+  <accesses>
+    <access>tts</access>
+    <access>ears</access>
+    <access>led</access>
+    <access>multimedia</access>
+    <access>button</access>
+    <access>asr</access>
+    <access>webcam</access>
+    <access>rfid</access>
+    <access>http</access>
+    <access>file</access>
+    <access>serial</access>
+  </accesses>
+  <deployment>external</deployment>
+  <callback>http://localhost:3000/karotz</callback>
+  <parameters>
+    <parameter key="showInstallUuid" value="true"/>
+  </parameters>
+</descriptor>

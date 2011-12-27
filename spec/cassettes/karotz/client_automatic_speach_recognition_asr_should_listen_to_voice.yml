@@ -1,0 +1,18 @@
+---
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :get
+    uri: http://api.karotz.com:80/api/karotz/asr?grammar=ruby&interactiveid=61f280fd-88fc-469f-bded-fc2ead4152c4&lang=EN
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '283'
+      connection:
+      - keep-alive
+    body: <VoosMsg><id>d7c49346-dc3a-4c32-ab18-95e1406967c7</id><correlationId>fa7690be-672e-4847-a7eb-4265be06e9a1</correlationId><interactiveId>61f280fd-88fc-469f-bded-fc2ead4152c4</interactiveId><callback>http://localhost:3000/karotz</callback><response><code>OK</code></response></VoosMsg>
+    http_version: '1.1'
