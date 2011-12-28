@@ -26,7 +26,7 @@ RSpec.configure do |config|
     @api_key = ENV['KAROTZ_API_KEY']
     @secret = ENV['KAROTZ_SECRET']
     # retrieved via http://www.karotz.com/authentication/run/karotz/API_KEY
-    @interactive_id = "61f280fd-88fc-469f-bded-fc2ead4152c4"
+    @interactive_id = "aa36d0a0-fcbd-4095-955b-9a6d53c2e3fc"
 
     HTTPI.log = false
     Karotz::Configuration.reset

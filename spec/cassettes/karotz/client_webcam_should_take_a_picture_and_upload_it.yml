@@ -1,0 +1,18 @@
+---
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :get
+    uri: http://api.karotz.com:80/api/karotz/webcam?action=photo&interactiveid=aa36d0a0-fcbd-4095-955b-9a6d53c2e3fc&url=https://picasaweb.google.com/data/feed/api/phoet6/default/albumid/default
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '286'
+      connection:
+      - keep-alive
+    body: <VoosMsg><id>bec92e1c-e412-4bce-93f6-d89336c4f7f1</id><correlationId>84e5b955-4676-4511-9c1d-5de8b86f4755</correlationId><interactiveId>aa36d0a0-fcbd-4095-955b-9a6d53c2e3fc</interactiveId><callback>http://localhost:3000/karotz</callback><response><code>OK</code></response></VoosMsg>
+    http_version: '1.1'

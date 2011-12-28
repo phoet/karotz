@@ -1,0 +1,18 @@
+---
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :get
+    uri: http://api.karotz.com:80/api/karotz/config?interactiveid=2f72fe9f-9c0a-4949-b1e6-5a402f125536
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 200
+      message: OK
+    headers:
+      content-length:
+      - '511'
+      connection:
+      - keep-alive
+    body: <ConfigResponse><config><interruptible>false</interruptible><awake>false</awake><name>config</name><uuid>SOME_UUID</uuid><params><key>awake</key><value>false</value></params><params><key>interruptible</key><value>false</value></params><params><key>permanentTriggerActivator</key><value>false</value></params><params><key>scheduledDateTriggerActivator</key><value>false</value></params><params><key>scheduledTriggerActivator</key><value>false</value></params></config></ConfigResponse>
+    http_version: '1.1'

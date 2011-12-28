@@ -68,9 +68,24 @@ module Karotz
       #============MULTIMEDIA=========
 
       def multimedia(interactive_id, params={})
-        request :multimedia, interactive_id, {:action => :play, :url => "http://www.jimwalls.net/mp3/ATeam.mp3"}.merge(params)
+        request :multimedia, interactive_id, {:action => Karotz::Multimedia::PLAY, :url => "http://www.jimwalls.net/mp3/ATeam.mp3"}.merge(params)
       end
       alias :play :multimedia
+
+      #============WEBCAM=========
+
+      def webcam(interactive_id, params={})
+        request :webcam, interactive_id, {:action => :photo, :url => "https://picasaweb.google.com/data/feed/api/phoet6/default/albumid/default"}.merge(params)
+      end
+      alias :snap :webcam
+      alias :cam :webcam
+
+      #============CONFIG=========
+
+      def config(interactive_id)
+        answer = perform_request(:config, interactive_id)
+        answer["ConfigResponse"]
+      end
 
       #============LIFE_CYCLE=========
 
@@ -86,7 +101,7 @@ module Karotz
       end
 
       def stop(interactive_id, params={})
-        request :interactivemode, interactive_id, {:action => :stop}.merge(params)
+        request(:interactivemode, interactive_id, {:action => :stop}.merge(params))
       end
 
       def session # TODO multimedia-api is not blocking, so we need some whay to find out when we can kill the session properly
@@ -120,6 +135,11 @@ module Karotz
       private()
 
       def request(endpoint, interactive_id, params={})
+        answer = perform_request(endpoint, interactive_id, params)
+        raise "bad response from server" if answer["VoosMsg"].nil? || answer["VoosMsg"]["response"].nil? || answer["VoosMsg"]["response"]["code"] != "OK"
+      end
+
+      def perform_request(endpoint, interactive_id, params={})
         raise "interactive_id is needed!" unless interactive_id
         raise "endpoint is needed!" unless endpoint
         url = "#{API}#{endpoint}?#{create_query({ :interactiveid => interactive_id }.merge(params))}"
@@ -127,7 +147,7 @@ module Karotz
         response = HTTPI.get(url)
         answer = Crack::XML.parse(response.body)
         Configuration.logger.debug "answer was '#{answer}'"
-        raise "bad response from server" if answer["VoosMsg"].nil? || answer["VoosMsg"]["response"].nil? || answer["VoosMsg"]["response"]["code"] != "OK"
+        answer
       end
 
       def create_query(params)

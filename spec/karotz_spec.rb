@@ -92,6 +92,34 @@ module Karotz
       end
     end
 
+    context "webcam" do
+      it "should take a picture and upload it", :vcr => true do
+        Client.snap(@interactive_id)
+      end
+    end
+
+    context "config" do
+      it "should retrieve the config", :vcr => true do
+        Client.config(@interactive_id).should eql(
+          {
+            "config" => {
+              "interruptible"=>"false",
+              "awake"=>"false",
+              "name"=>"config",
+              "uuid"=>"SOME_UUID",
+              "params"=>[
+                {"key"=>"awake", "value"=>"false"},
+                {"key"=>"interruptible", "value"=>"false"},
+                {"key"=>"permanentTriggerActivator", "value"=>"false"},
+                {"key"=>"scheduledDateTriggerActivator", "value"=>"false"},
+                {"key"=>"scheduledTriggerActivator", "value"=>"false"}
+              ]
+            }
+          }
+        )
+      end
+    end
+
     context "lifecycle" do
       before(:each) do
         Configuration.configure do |config|

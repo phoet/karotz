@@ -14,7 +14,7 @@
     <access>serial</access>
   </accesses>
   <deployment>external</deployment>
-  <callback>http://localhost:3000/karotz</callback>
+  <callback>http://ohrsome.heroku.com/karotz</callback>
   <parameters>
     <parameter key="showInstallUuid" value="true"/>
   </parameters>

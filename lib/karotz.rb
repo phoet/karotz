@@ -1,5 +1,6 @@
 require "karotz/version"
 require "karotz/configuration"
+require "karotz/multimedia"
 require "karotz/color"
 require "karotz/language"
 require "karotz/client"
