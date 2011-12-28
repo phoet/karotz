@@ -45,8 +45,8 @@ module Karotz
 
       it "should look sad", :vcr => true do
         params = {
-          :left => 90,
-          :right => 90,
+          :left => 9,
+          :right => 9,
           :relative => false
         }
         Client.ears(@interactive_id, params)
