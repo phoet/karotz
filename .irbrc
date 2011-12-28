@@ -7,4 +7,4 @@ Karotz::Configuration.configure do |config|
   config.secret     = ENV['KAROTZ_SECRET']
 end
 
-@client = Karotz::Client.new(Karotz::Client.start)
+@client = Karotz::Client.create
