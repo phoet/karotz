@@ -36,6 +36,10 @@ module Karotz
         request :ears, interactive_id, params
       end
 
+      def sad(interactive_id)
+        ears interactive_id, :left => 9, :right => 9
+      end
+
       #============LED================
 
       def led(interactive_id, params={})
@@ -72,6 +76,10 @@ module Karotz
       end
       alias :play :multimedia
 
+      def nyan(interactive_id)
+        multimedia interactive_id, :url => "http://api.ning.com:80/files/3zmSvhA*3jKxFJj1I5uh5dp5oCynyyMksQjwS3JWWQNlriTzDzX61KtlFnuQtx-hEmV7NdqVgofmZvh7cXOX-UVJ47m1SR4a/nyanlooped.mp3"
+      end
+
       #============WEBCAM=========
 
       def webcam(interactive_id, params={})
@@ -103,6 +111,8 @@ module Karotz
       def stop(interactive_id, params={})
         request(:interactivemode, interactive_id, {:action => :stop}.merge(params))
       end
+      alias :destroy :stop
+      alias :disconnect :stop
 
       def session # TODO multimedia-api is not blocking, so we need some whay to find out when we can kill the session properly
         client = create
@@ -111,12 +121,13 @@ module Karotz
         stop(client.interactive_id) if client
       end
 
-      #===========HELPERS================
-
       def create
         interactive_id = start
         new(interactive_id)
       end
+      alias :connect :create
+
+      #===========HELPERS================
 
       def start_url(install_id, api_key, secret, once=rand(99999999999999), timestamp=Time.now.to_i)
         params = {
