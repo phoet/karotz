@@ -28,7 +28,7 @@ module Karotz
     API = "http://api.karotz.com/api/karotz/"
     DIGEST  = OpenSSL::Digest::Digest.new('sha1')
 
-    class << self # TODO add the rest of the API calls
+    class << self
 
       #==========EARS=================
 
