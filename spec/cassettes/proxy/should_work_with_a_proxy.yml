@@ -1,0 +1,24 @@
+---
+- !ruby/struct:VCR::HTTPInteraction
+  request: !ruby/struct:VCR::Request
+    method: :get
+    uri: http://api.karotz.com:80/api/karotz/start?apikey=7afdd4b7-3bc8-4469-bda2-1d8bc1e218a0&installid=37b67bee-b480-44e9-84fe-8c711b09fe78&once=1502266272712&signature=DYh/pt3G//CENw9A5nyp3lsjaMY=&timestamp=1326123132
+    body: 
+    headers: 
+  response: !ruby/struct:VCR::Response
+    status: !ruby/struct:VCR::ResponseStatus
+      code: 200
+      message: OK
+    headers:
+      proxy-connection:
+      - close
+      content-length:
+      - '540'
+      via:
+      - 1.1 ernst.local:9000
+      server:
+      - WEBrick/1.3.1 (Ruby/1.9.3/2011-10-30)
+      date:
+      - Mon, 09 Jan 2012 15:32:25 GMT
+    body: <VoosMsg><id>eb9cacc6-8ad4-4ea9-8f72-8be3d2995a37</id><recipient>2addc8ff97e59fe4616021094db393d5</recipient><interactiveMode><action>START</action><interactiveId>f72ad94a-6424-4f8e-9b19-e3aad56f0b65</interactiveId><configId>b800bdca-482c-455c-8b9c-581ac7f2b1ec</configId><access>asr</access><access>button</access><access>ears</access><access>file</access><access>http</access><access>led</access><access>multimedia</access><access>rfid</access><access>serial</access><access>tts</access><access>webcam</access></interactiveMode></VoosMsg>
+    http_version: '1.1'

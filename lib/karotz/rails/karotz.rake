@@ -23,6 +23,7 @@ namespace :karotz do
         config.install_id = ENV['KAROTZ_INSTALL_ID']
         config.api_key    = ENV['KAROTZ_API_KEY']
         config.secret     = ENV['KAROTZ_SECRET']
+        config.proxy      = ENV['KAROTZ_PROXY']
       end
     end
   end

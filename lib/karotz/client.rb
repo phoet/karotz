@@ -25,9 +25,6 @@ module Karotz
       self.class.respond_to?(meth) || super
     end
 
-    API = "http://api.karotz.com/api/karotz/"
-    DIGEST  = OpenSSL::Digest::Digest.new('sha1')
-
     class << self
 
       #==========EARS=================
@@ -101,7 +98,7 @@ module Karotz
         Configuration.validate_credentials!
         url = start_url(Configuration.install_id, Configuration.api_key, Configuration.secret)
         Configuration.logger.debug "calling karotz api with url '#{url}'"
-        response = HTTPI.get(url)
+        response = get(url)
         answer = Crack::XML.parse(response.body)
         Configuration.logger.debug "answer was '#{answer}'"
         raise "could not retrieve interactive_id" if answer["VoosMsg"].nil? || answer["VoosMsg"]["interactiveMode"].nil? || answer["VoosMsg"]["interactiveMode"]["interactiveId"].nil?
@@ -137,10 +134,10 @@ module Karotz
           'timestamp'   => timestamp,
         }
         query   = create_query(params)
-        hmac    = OpenSSL::HMAC.digest(DIGEST, secret, query)
+        hmac    = OpenSSL::HMAC.digest(Configuration.digest, secret, query)
         encoded = Base64.encode64(hmac).chomp
         signed  = CGI.escape(encoded)
-        "#{API}start?#{query}&signature=#{signed}"
+        "#{Configuration.endpoint}start?#{query}&signature=#{signed}"
       end
 
       private()
@@ -150,12 +147,18 @@ module Karotz
         raise "bad response from server" if answer["VoosMsg"].nil? || answer["VoosMsg"]["response"].nil? || answer["VoosMsg"]["response"]["code"] != "OK"
       end
 
-      def perform_request(endpoint, interactive_id, params={})
+      def get(url)
+        request = HTTPI::Request.new(url)
+        request.proxy = Configuration.proxy if Configuration.proxy
+        HTTPI.get request
+      end
+
+      def perform_request(action, interactive_id, params={})
         raise "interactive_id is needed!" unless interactive_id
-        raise "endpoint is needed!" unless endpoint
-        url = "#{API}#{endpoint}?#{create_query({ :interactiveid => interactive_id }.merge(params))}"
+        raise "action is needed!" unless action
+        url = "#{Configuration.endpoint}#{action}?#{create_query({ :interactiveid => interactive_id }.merge(params))}"
         Configuration.logger.debug "calling karotz api with url '#{url}'"
-        response = HTTPI.get(url)
+        response = get(url)
         answer = Crack::XML.parse(response.body)
         Configuration.logger.debug "answer was '#{answer}'"
         answer

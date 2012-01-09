@@ -5,7 +5,8 @@ module Karotz
     class << self
 
       attr_accessor :install_id, :api_key, :secret
-      attr_accessor :logger
+      attr_accessor :endpoint, :proxy
+      attr_accessor :logger, :digest
 
       def configure(options={})
         init_config
@@ -36,11 +37,14 @@ module Karotz
 
       def init_config(force=false)
         return if @init && !force
-        @init          = true
-        @secret        = ''
-        @api_key       = ''
-        @install_id    = ''
-        @logger        = Logger.new(STDERR)
+        @init       = true
+        @secret     = ''
+        @api_key    = ''
+        @install_id = ''
+        @proxy      = nil
+        @logger     = Logger.new(STDERR)
+        @endpoint   = "http://api.karotz.com/api/karotz/"
+        @digest     = OpenSSL::Digest::Digest.new('sha1')
       end
     end
   end
