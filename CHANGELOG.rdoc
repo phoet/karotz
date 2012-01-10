@@ -1,0 +1,20 @@
+== 0.4.0
+
+* support for proxy-servers
+* configurable api endpoint
+
+== 0.3.0
+
+* added railtie with build triggers for rails projects
+* shortcuts for nyan-cat-sound and sad-faced karotz
+* some convenience alias methods (connect, disconnect, destroy)
+
+== 0.2.0
+
+* add create helper for Karotz::Client
+* add api methods asr, webcam and config
+
+== 0.1.0
+
+* basic implementation
+* support for api methods ears, led, tts and multimedia
