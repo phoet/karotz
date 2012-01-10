@@ -22,33 +22,35 @@ module WEBrick
   end
 end
 
-module Karotz
-  describe "proxy" do
-    before :all do
-      @pid = fork do
-        STDERR.reopen('/dev/null', 'a')
-        WEBrick::VCRProxyServer.new(:Port => 9000).start
+unless RUBY_PLATFORM == 'java'
+  module Karotz
+    describe "proxy" do
+      before :all do
+        @pid = fork do
+          STDERR.reopen('/dev/null', 'a')
+          WEBrick::VCRProxyServer.new(:Port => 9000).start
+        end
+
+        begin
+          TCPSocket.open('localhost', 9000).close
+        rescue Errno::ECONNREFUSED
+          retry
+        end
       end
 
-      begin
-        TCPSocket.open('localhost', 9000).close
-      rescue Errno::ECONNREFUSED
-        retry
+      before(:each) do
+        Configuration.configure do |config|
+          config.install_id = ENV['KAROTZ_INSTALL_ID']
+          config.api_key    = ENV['KAROTZ_API_KEY']
+          config.secret     = ENV['KAROTZ_SECRET']
+          config.proxy      = 'http://localhost:9000'
+        end
       end
-    end
 
-    before(:each) do
-      Configuration.configure do |config|
-        config.install_id = ENV['KAROTZ_INSTALL_ID']
-        config.api_key    = ENV['KAROTZ_API_KEY']
-        config.secret     = ENV['KAROTZ_SECRET']
-        config.proxy      = 'http://localhost:9000'
-      end
-    end
-
-    it "should work with a proxy", :vcr => true do
-      Client.create.tap do |it|
-        it.interactive_id.should_not be_nil
+      it "should work with a proxy", :vcr => true do
+        Client.create.tap do |it|
+          it.interactive_id.should_not be_nil
+        end
       end
     end
   end
