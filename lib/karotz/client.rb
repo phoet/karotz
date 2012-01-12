@@ -1,7 +1,6 @@
 require 'cgi'
 require 'base64'
 require 'httpi'
-require 'httpclient'
 require 'crack'
 
 module Karotz
