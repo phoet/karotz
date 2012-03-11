@@ -57,6 +57,8 @@ module Karotz
         request :tts, interactive_id, {:action => :speak, :text => "test", :lang => Language::ENGLISH}.merge(params)
       end
       alias :speak :tts
+      alias :say :tts
+      alias :talk :tts
 
       #============ASR================
 

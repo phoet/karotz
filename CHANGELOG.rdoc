@@ -1,3 +1,7 @@
+== next
+
+* remove rails railtie
+
 == 0.4.1
 
 * remove direct httpclient dependency

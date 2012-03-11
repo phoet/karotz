@@ -61,15 +61,6 @@ via Bundler:
   [...]
   karotz.stop
 
-== Railtie
-
-The gem comes with two example Rake tasks, that are automatically included into your Rails application:
-
-  rake karotz:build:failed
-  rake karotz:build:normal
-
-Both Tasks are examples of how you could use your Karotz in a CI system like Jenkins.
-
 == Changes
 
 See CHANGELOG file.
