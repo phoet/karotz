@@ -12,7 +12,7 @@ Supported methods:
 
 * ears
 * led
-* tts (text to speach)
+* tts (text to speech)
 * multimedia
 * asr (automated speach recognition)
 * webcam
