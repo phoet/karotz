@@ -70,7 +70,7 @@ module Karotz
       #============MULTIMEDIA=========
 
       def multimedia(interactive_id, params={})
-        request :multimedia, interactive_id, {:action => Karotz::Multimedia::PLAY, :url => "http://www.jimwalls.net/mp3/ATeam.mp3"}.merge(params)
+        request :multimedia, interactive_id, {:action => Multimedia::PLAY, :url => "http://www.jimwalls.net/mp3/ATeam.mp3"}.merge(params)
       end
       alias :play :multimedia
 
@@ -92,6 +92,21 @@ module Karotz
         answer = perform_request(:config, interactive_id)
         answer["ConfigResponse"]
       end
+
+      #============FUN_STUFF=========
+
+      def king_of_the_jungle(interactive_id, params={})
+        colors = Color.all
+        play interactive_id, :url => 'http://soundjax.com/reddo/35463%5Eat_tarzan.mp3'
+        rand(50).times do |i| # do some pseudo random blinking and crazy ears
+          color = colors[(colors.size % (i + 1)) + 1]
+          sleep = rand
+          led interactive_id, :color => color, :period => (sleep * 1000).to_i
+          ears interactive_id, :left => i / 2, :right => i * -1
+          sleep(sleep)
+        end
+      end
+      alias :freak :king_of_the_jungle
 
       #============LIFE_CYCLE=========
 

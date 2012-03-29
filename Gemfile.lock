@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    karotz (0.4.1)
+    karotz (0.4.2)
       crack (~> 0.3)
       httpi (~> 0.9)
 

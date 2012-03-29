@@ -11,5 +11,9 @@ module Karotz
     FOLDER = :folder
     ARTIST = :artist
     GENRE = :genre
+
+    def self.all
+      @constants ||= constants.map { |const| const_get const }
+    end
   end
 end
