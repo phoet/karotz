@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Karotz by phoet</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/respond.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <link rel="stylesheet" href="stylesheets/ie.css">
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <div id="header">
+        <nav>
+          <li class="fork"><a href="https://github.com/phoet/karotz">Fork On GitHub</a></li>
+          <li class="downloads"><a href="https://github.com/phoet/karotz/zipball/master">ZIP</a></li>
+          <li class="downloads"><a href="https://github.com/phoet/karotz/tarball/master">TAR</a></li>
+          <li class="title">DOWNLOADS</li>
+        </nav>
+      </div><!-- end header -->
+
+    <div class="wrapper">
+
+      <section>
+        <div id="title">
+          <h1>Karotz</h1>
+          <p>ruby bindings for the karotz rest api</p>
+          <hr>
+          <span class="credits left">Project maintained by <a href="https://github.com/phoet">phoet</a></span>
+          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/#!/michigangraham">mattgraham</a></span>
+        </div>
+
+        <h3>Info</h3>
+
+<p>Status: <img src="http://stillmaintained.com/phoet/karotz.png" alt="Status">
+
+Build: <img src="http://travis-ci.org/phoet/karotz.png" alt="Build"></p>
+
+<p>This gem is still in early development.</p>
+
+<h3>Docs</h3>
+
+<p>Supported methods:</p>
+
+<ul>
+<li>ears</li>
+<li>led</li>
+<li>tts (text to speech)</li>
+<li>multimedia</li>
+<li>asr (automated speach recognition)</li>
+<li>webcam</li>
+<li>config</li>
+</ul><p>Have a look at the whole api: <a href="http://dev.karotz.com/api">http://dev.karotz.com/api</a></p>
+
+<p>Read the HOW-TO: <a href="http://www.dzone.com/links/karotz_ruby_love.html">http://www.dzone.com/links/karotz_ruby_love.html</a></p>
+
+<h3>Installation</h3>
+
+<p>as a gem:</p>
+
+<div class="highlight">
+<pre>  gem install karotz
+</pre>
+</div>
+
+
+<p>or via Bundler:</p>
+
+<div class="highlight">
+<pre>  <span class="c1"># Gemfile</span>
+  <span class="n">gem</span> <span class="s2">"karotz"</span>
+</pre>
+</div>
+
+
+<div class="highlight">
+<pre>  bundle install
+</pre>
+</div>
+
+
+<h3>Examples</h3>
+
+<div class="highlight">
+<pre>  <span class="nb">require</span> <span class="s1">'karotz'</span>
+  <span class="no">Karotz</span><span class="o">::</span><span class="no">Configuration</span><span class="o">.</span><span class="n">configure</span> <span class="k">do</span> <span class="o">|</span><span class="n">config</span><span class="o">|</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">install_id</span> <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">'KAROTZ_INSTALL_ID'</span><span class="o">]</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">api_key</span>    <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">'KAROTZ_API_KEY'</span><span class="o">]</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">secret</span>     <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">'KAROTZ_SECRET'</span><span class="o">]</span>
+    <span class="n">config</span><span class="o">.</span><span class="n">proxy</span>      <span class="o">=</span> <span class="no">ENV</span><span class="o">[</span><span class="s1">'KAROTZ_PROXY'</span><span class="o">]</span>
+  <span class="k">end</span>
+
+  <span class="c1"># bare</span>
+  <span class="n">interactive_id</span> <span class="o">=</span> <span class="no">Karotz</span><span class="o">::</span><span class="no">Client</span><span class="o">.</span><span class="n">start</span>
+  <span class="no">Karotz</span><span class="o">::</span><span class="no">Client</span><span class="o">.</span><span class="n">ears</span> <span class="n">interactive_id</span>
+  <span class="o">[.</span><span class="n">.</span><span class="o">.]</span>
+  <span class="no">Karotz</span><span class="o">::</span><span class="no">Client</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="n">interactive_id</span><span class="p">)</span>
+
+  <span class="c1"># using a session</span>
+  <span class="no">Karotz</span><span class="o">::</span><span class="no">Client</span><span class="o">.</span><span class="n">session</span> <span class="k">do</span> <span class="o">|</span><span class="n">karotz</span><span class="o">|</span>
+    <span class="n">karotz</span><span class="o">.</span><span class="n">ears</span>
+    <span class="o">[.</span><span class="n">.</span><span class="o">.]</span>
+  <span class="k">end</span>
+
+  <span class="c1"># using a client</span>
+  <span class="n">karotz</span> <span class="o">=</span> <span class="no">Karotz</span><span class="o">::</span><span class="no">Client</span><span class="o">.</span><span class="n">create</span>
+  <span class="n">karotz</span><span class="o">.</span><span class="n">ears</span>
+  <span class="o">[.</span><span class="n">.</span><span class="o">.]</span>
+  <span class="n">karotz</span><span class="o">.</span><span class="n">stop</span>
+</pre>
+</div>
+
+
+<h3>License</h3>
+
+<p>"THE BEER-WARE LICENSE" (Revision 42):
+ps@nofail.de[mailto:ps@nofail.de] wrote this file. As long as you retain this notice you
+can do whatever you want with this stuff. If we meet some day, and you think
+this stuff is worth it, you can buy me a beer in return Peter Schröder</p>
+      </section>
+
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
