@@ -15,16 +15,5 @@ module Karotz
       :endpoint   => "http://api.karotz.com/api/karotz/",
       :digest     => OpenSSL::Digest::Digest.new('sha1'),
     })
-
-    class << self
-      def validate_credentials!
-        raise "you have to configure Karotz: 'configure :install_id => 'your-install-id', :api_key => 'your-api-key', :secret => 'your-secret'" if blank?(:api_key) || blank?(:secret) || blank?(:install_id)
-      end
-
-      def blank?(key)
-        val = self.send key
-        val.nil? || val.empty?
-      end
-    end
   end
 end

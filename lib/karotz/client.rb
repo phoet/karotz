@@ -111,7 +111,7 @@ module Karotz
       #============LIFE_CYCLE=========
 
       def start
-        Configuration.validate_credentials!
+        Configuration.validate!
         url = start_url(Configuration.install_id, Configuration.api_key, Configuration.secret)
         Configuration.logger.debug "calling karotz api with url '#{url}'"
         response = get(url)
