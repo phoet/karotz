@@ -6,6 +6,7 @@ module Karotz
   class Configuration
     include Confiture::Configuration
     confiture_allowed_keys(:install_id, :api_key, :secret, :endpoint, :proxy, :logger, :digest)
+    confiture_mandatory_keys(:install_id, :api_key, :secret)
     confiture_defaults({
       :secret     => '',
       :api_key    => '',
