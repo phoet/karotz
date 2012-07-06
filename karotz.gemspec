@@ -25,8 +25,9 @@ Gem::Specification.new do |s|
   s.add_development_dependency "webmock"
   s.add_development_dependency "vcr", "1.11.3"
 
-  s.add_runtime_dependency "httpi",       "~> 0.9"
-  s.add_runtime_dependency "crack",       "~> 0.3"
+  s.add_runtime_dependency "httpi",     "~> 0.9"
+  s.add_runtime_dependency "confiture", "~> 0.1"
+  s.add_runtime_dependency "crack",     "~> 0.3"
 
   s.add_runtime_dependency('jruby-openssl') if RUBY_PLATFORM == 'java'
 end

@@ -1,6 +1,7 @@
-== next
+== 0.5.0
 
 * remove rails railtie
+* use confiture for configuration
 
 == 0.4.1
 

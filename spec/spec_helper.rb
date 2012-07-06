@@ -29,7 +29,7 @@ RSpec.configure do |config|
     @interactive_id = "f3065573-913f-417f-8171-4524f7863cff"
 
     HTTPI.log = false
-    Karotz::Configuration.reset
+    Karotz::Configuration.reset!
     Karotz::Configuration.logger.level = Logger::WARN
   end
 end
